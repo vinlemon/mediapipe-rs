@@ -29,18 +29,23 @@ image_classification_init() {
   mkdir -p "${image_classification_dir}"
   pushd "${image_classification_dir}"
 
-  model_urls=("https://storage.googleapis.com/mediapipe-tasks/image_classifier/efficientnet_lite0_uint8.tflite"
-              "https://storage.googleapis.com/mediapipe-tasks/image_classifier/efficientnet_lite0_fp32.tflite"
-              "https://storage.googleapis.com/mediapipe-tasks/image_classifier/efficientnet_lite2_uint8.tflite"
-              "https://storage.googleapis.com/mediapipe-tasks/image_classifier/efficientnet_lite2_fp32.tflite"
-  )
+  # model_urls=("https://storage.googleapis.com/mediapipe-tasks/image_classifier/efficientnet_lite0_uint8.tflite"
+  #             "https://storage.googleapis.com/mediapipe-tasks/image_classifier/efficientnet_lite0_fp32.tflite"
+  #             "https://storage.googleapis.com/mediapipe-tasks/image_classifier/efficientnet_lite2_uint8.tflite"
+  #             "https://storage.googleapis.com/mediapipe-tasks/image_classifier/efficientnet_lite2_fp32.tflite"
+  # )
 
-  for url in "${model_urls[@]}"; do
-    curl -sLO "${url}"
-  done
+  # for url in "${model_urls[@]}"; do
+  #   curl -sLO "${url}"
+  # done
 
-  # for custom model downloaded from tf hub
-  curl -sL "https://tfhub.dev/google/lite-model/aiy/vision/classifier/birds_V1/3?lite-format=tflite" -o "lite-model_aiy_vision_classifier_birds_V1_3.tflite"
+  # for custom model downloaded from kaggle
+  bird_model_name="lite-model_aiy_vision_classifier_birds_V1_3"
+  kaggle_tflite_filename="3.tflite"
+  curl -sL "https://www.kaggle.com/api/v1/models/google/aiy/tfLite/vision-classifier-birds-v1/3/download" -o "${bird_model_name}.tar.gz"
+  tar -zxvf "${bird_model_name}.tar.gz"
+  mv "${kaggle_tflite_filename}" "${bird_model_name}.tflite"
+  rm -rf "${bird_model_name}.tar.gz"
 
   popd
 }
@@ -175,13 +180,13 @@ text_embedding_init() {
     popd
 }
 
-object_detection_init
+# object_detection_init
 image_classification_init
-gesture_recognition_init
-hand_landmark_detection_init
-image_segmentation_init
-image_embedding_init
-face_detection_init
-audio_classification_init
-text_classification_init
-text_embedding_init
+# gesture_recognition_init
+# hand_landmark_detection_init
+# image_segmentation_init
+# image_embedding_init
+# face_detection_init
+# audio_classification_init
+# text_classification_init
+# text_embedding_init
